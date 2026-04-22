@@ -47,7 +47,7 @@ Ball.prototype.update = function () {
 
 let balls = [];
 
-while (balls.length < 10000) {
+while (balls.length < 50) {
     let size = random(10, 20);
     let ball = new Ball(
         random(0 + size, width - size),
@@ -72,37 +72,18 @@ function loop() {
   
     requestAnimationFrame(loop);
 }
-
-Ball.prototype.collisionDetect = function () {
-  for (let j = 0; j < balls.length; j++) {
-    if (this !== balls[j]) {
-      const dx = balls[j].x - this.x;
-      const dy = balls[j].y - this.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance < this.size + balls[j].size) {
-        const nx = dx / distance;
-        const ny = dy / distance;
-
-        const dvx = this.velX - balls[j].velX;
-        const dvy = this.velY - balls[j].velY;
-
-        const impactSpeed = dvx * nx + dvy * ny;
-
-        if (impactSpeed > 0) return;
-
-        this.velX -= impactSpeed * nx;
-        this.velY -= impactSpeed * ny;
-        balls[j].velX += impactSpeed * nx;
-        balls[j].velY += impactSpeed * ny;
-
+Ball.prototype.collisionDetect = function() {
+    for (let j = 0; j < balls.length; j++) {
+      if (!(this === balls[j])) {
+        const dx = this.x - balls[j].x;
+        const dy = this.y - balls[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
   
-        const newColor = 'rgb(' + random(0,255) + ',' + random(0,255) + ',' + random(0,255) + ')';
-        this.color = balls[j].color = newColor;
+        if (distance < this.size + balls[j].size) {
+          balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) +')';
+        }
       }
     }
-  }
-};
-
+}
 
 loop();
