@@ -47,7 +47,7 @@ Ball.prototype.update = function () {
 
 let balls = [];
 
-while (balls.length < 50) {
+while (balls.length < 100) {
     let size = random(10, 20);
     let ball = new Ball(
         random(0 + size, width - size),
